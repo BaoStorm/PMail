@@ -116,6 +116,11 @@ func doSend(ctx *context.Context, fromDomain string, data []byte, to []*parsemai
 			if err == nil {
 				return
 			}
+			// 优先尝试465端口，starttls方式投递
+			err = smtp.SendMail("", domain.mxHost+":465", nil, from, fromDomain, buildAddress(tos), data)
+			if err == nil {
+				return
+			}
 			// 证书错误，从新选取证书发送
 			var certificateErr *tls.CertificateVerificationError
 			if errors.As(err, &certificateErr) {
