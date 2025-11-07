@@ -112,7 +112,7 @@ func doSend(ctx *context.Context, fromDomain string, data []byte, to []*parsemai
 			}
 
 			// 优先尝试465端口，starttls方式投递
-			err = smtp.SendMail("", domain.mxHost+":465", nil, from, fromDomain, buildAddress(tos), data)
+			err := smtp.SendMail("", domain.mxHost+":465", nil, from, fromDomain, buildAddress(tos), data)
 			if err == nil {
 				return
 			}
